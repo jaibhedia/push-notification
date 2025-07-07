@@ -9,7 +9,8 @@ const registerTokenSchema = Joi.object({
   token: Joi.string().min(100).required(),
   userId: Joi.string().optional(),
   platform: Joi.string().valid('web', 'android', 'ios').default('web'),
-  userAgent: Joi.string().optional()
+  userAgent: Joi.string().optional(),
+  registeredAt: Joi.string().isoDate().optional()
 });
 
 /**

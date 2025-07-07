@@ -46,11 +46,14 @@ router.post('/send', async (req, res) => {
     if (targetTokens === 'all') {
       const allDevices = await Device.getAllActiveTokens();
       tokens = allDevices.map(device => device.token);
+      console.log(`[DEBUG] Found ${tokens.length} tokens from devices:`, tokens.map(t => t.substring(0, 20) + '...'));
     } else {
       tokens = targetTokens;
+      console.log(`[DEBUG] Using provided tokens:`, tokens.map(t => t.substring(0, 20) + '...'));
     }
 
     if (tokens.length === 0) {
+      console.log('[DEBUG] No tokens found');
       return res.status(400).json({
         error: 'No valid tokens found',
         message: 'No devices available to send notifications to'
@@ -59,7 +62,13 @@ router.post('/send', async (req, res) => {
 
     // Validate tokens
     const validTokens = tokens.filter(validateToken);
+    console.log(`[DEBUG] Token validation: ${tokens.length} total, ${validTokens.length} valid`);
+    
     if (validTokens.length === 0) {
+      console.log('[DEBUG] All tokens failed validation');
+      tokens.forEach((token, i) => {
+        console.log(`[DEBUG] Token ${i}: length=${token.length}, validation=${validateToken(token)}`);
+      });
       return res.status(400).json({
         error: 'No valid tokens provided',
         message: 'All provided tokens are invalid'

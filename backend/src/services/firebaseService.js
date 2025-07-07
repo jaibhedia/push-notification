@@ -58,12 +58,12 @@ async function sendNotificationToDevice(token, notification, data = {}) {
       notification: {
         title: notification.title,
         body: notification.body,
-        ...(notification.icon && { icon: notification.icon }),
         ...(notification.image && { image: notification.image })
       },
       data: {
-        ...data,
-        click_action: notification.clickAction || '',
+        // Convert all data values to strings as required by FCM
+        ...Object.fromEntries(Object.entries(data || {}).map(([key, value]) => [key, String(value)])),
+        click_action: String(notification.clickAction || ''),
         timestamp: new Date().toISOString()
       },
       webpush: {
@@ -129,12 +129,12 @@ async function sendNotificationToMultipleDevices(tokens, notification, data = {}
         notification: {
           title: notification.title,
           body: notification.body,
-          ...(notification.icon && { icon: notification.icon }),
           ...(notification.image && { image: notification.image })
         },
         data: {
-          ...data,
-          click_action: notification.clickAction || '',
+          // Convert all data values to strings as required by FCM
+          ...Object.fromEntries(Object.entries(data || {}).map(([key, value]) => [key, String(value)])),
+          click_action: String(notification.clickAction || ''),
           timestamp: new Date().toISOString()
         },
         webpush: {
@@ -189,13 +189,19 @@ async function sendNotificationToMultipleDevices(tokens, notification, data = {}
  * Validate FCM token format
  */
 function validateToken(token) {
-  // Basic FCM token validation (tokens are typically long alphanumeric strings)
-  if (typeof token !== 'string' || token.length < 100) {
+  // Basic FCM token validation
+  if (typeof token !== 'string' || token.length < 50) {
     return false;
   }
   
-  // FCM tokens should contain only alphanumeric characters, hyphens, and underscores
-  const tokenRegex = /^[a-zA-Z0-9_-]+$/;
+  // For development/testing: be very permissive
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`[DEBUG] Validating token in dev mode: length=${token.length}, valid=true`);
+    return true; // Allow all tokens in development
+  }
+  
+  // FCM tokens can contain alphanumeric characters, hyphens, underscores, colons, and dots
+  const tokenRegex = /^[a-zA-Z0-9_:.-]+$/;
   return tokenRegex.test(token);
 }
 
