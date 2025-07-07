@@ -9,6 +9,9 @@ backend/
 client/
 functions/
 
+# Keep api/ directory for Vercel serverless functions
+!api/
+
 # Environment files
 *.env
 *.env.local

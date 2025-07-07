@@ -1,4 +1,4 @@
-const Device = require('../../backend/src/models/Device');
+const Device = require('../src/models/Device');
 
 module.exports = async (req, res) => {
   // Set CORS headers

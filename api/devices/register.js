@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-// Import models and services from backend
-const Device = require('../../backend/src/models/Device');
+// Import models from the API directory
+const Device = require('../src/models/Device');
 
 // Validation schema
 const registerTokenSchema = Joi.object({

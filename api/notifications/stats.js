@@ -1,4 +1,4 @@
-const Notification = require('../../backend/src/models/Notification');
+const Notification = require('../src/models/Notification');
 
 module.exports = async (req, res) => {
   // Set CORS headers

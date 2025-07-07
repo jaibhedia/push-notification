@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const Notification = require('../../backend/src/models/Notification');
-const { sendNotificationToTokens } = require('../../backend/src/services/firebaseService');
+const Notification = require('../src/models/Notification');
+const { sendNotificationToTokens } = require('../src/services/firebaseService');
 
 // Validation schema
 const sendNotificationSchema = Joi.object({
