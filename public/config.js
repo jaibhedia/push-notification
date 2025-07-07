@@ -11,7 +11,14 @@ const firebaseConfig = {
 };
 
 // Backend API configuration
-const API_BASE_URL = 'http://localhost:3001/api';
+// Auto-detect the correct API base URL
+const API_BASE_URL = (() => {
+  if (window.location.hostname === 'localhost') {
+    return 'http://localhost:3001/api'; // Local development
+  } else {
+    return '/api'; // Production (Vercel)
+  }
+})();
 
 // VAPID key for web push (get this from Firebase Console)
 const VAPID_KEY = "BAPw_g8Kowc4lgjVhViqi6U2yCVIdre1iWTe3JqLmT8c9wzmZ-XcxcCuGtLy4nYEPvBOrEZKN_MqWHl8iHZ_gjA";

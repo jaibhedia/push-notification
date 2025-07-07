@@ -1,0 +1,6 @@
+<!-- Simple SVG placeholder icon - replace with proper PNG for production -->
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" fill="#4f46e5" rx="32"/>
+  <circle cx="96" cy="96" r="50" fill="white"/>
+  <text x="96" y="110" text-anchor="middle" fill="#4f46e5" font-family="Arial" font-size="32" font-weight="bold">🔔</text>
+</svg>
